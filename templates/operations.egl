@@ -1,0 +1,37 @@
+[% 
+operation Issue getBootstrapClass() : String {
+	if (self.isTypeOf(Bug) and self.open) {
+		return "table-danger";
+	} else if (self.isTypeOf(Enhancement) and self.open) {
+		return "table-primary";
+	} else if (self.isTypeOf(Bug) and not self.open) {
+		return "table-secondary";
+	} else {
+		return "table-info";
+	}
+}
+
+operation Issue getHyperlink() : String {
+	return '<a href="issue_' + self.title + '_' + self.id +'.html">' + self.title + '</a>';
+}
+
+operation Product getHyperlink() : String {
+	return '<a href="product_' + self.name + '_' + self.id +'.html">' + self.name + '</a>';
+}
+
+operation Version getHyperlink() : String {
+	return '<a href="product_' + self.product.name + '_version_' + self.name + self.id +'.html">' + self.product.name + '_' + self.name + '</a>';
+}
+
+operation Team getHyperlink() : String {
+	return '<a href="team_' + self.name + '_' + self.id +'.html">' + self.name + '</a>';
+}
+
+operation Developer getHyperlink() : String {
+	return '<a href="developer_' + self.firstName + '_' + self.surename + '_' + self.id +'.html">' + self.firstName + ' ' + self.surename + '</a>';
+}
+
+operation Developer getHyperlinkWithTeam() : String {
+	return '<a href="developer_' + self.firstName + '_' + self.surename + '_' + self.id +'.html">' + self.firstName + ' ' + self.surename + ' (' + self.team.name + ')</a>';
+}
+%]

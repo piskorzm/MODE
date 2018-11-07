@@ -1,0 +1,119 @@
+[%=TemplateFactory.load("templates/imports.egl").process()%]
+[%=TemplateFactory.load("templates/navbar.egl").process()%]
+
+<div class="container">
+<h1 style="text-align:center;">[%=issue.title%]</h1>
+
+<h6 style="text-align:center;">Issue ID: <span class="font-weight-normal">[%=issue.id%]</span></h6>
+<h6 style="text-align:center;">Type: <span class="font-weight-normal">[%=issue.type.name%]</span></h6>
+<h6 style="text-align:center;">Description: <span class="font-weight-normal">[%=issue.description%]</span></h6>
+<h6 style="text-align:center;">Open: <span class="font-weight-normal">[%=issue.open%]</span></h6>
+<h6 style="text-align:center;">Open time: <span class="font-weight-normal">[%=issue.openTime%]</span></h6>
+<h6 style="text-align:center;">Close time: <span class="font-weight-normal">[%=issue.closeTime%]</span></h6>
+<h6 style="text-align:center;">Reported by: <span class="font-weight-normal">[%=issue.reportedBy.getHyperlinkWithTeam()%]</span></h6>
+
+<h6 style="text-align:center;">Assigned to: <span class="font-weight-normal">
+[% for (developer in issue.assignedTo) {%]
+[%=developer.getHyperlinkWithTeam() + ' | '%] 
+[% } %]
+</span></h6>
+
+<h6 style="text-align:center;">Affected versions: <span class="font-weight-normal">
+[% for (version in issue.affectedVersions) {%]
+[%=version.getHyperlink() + ' | '%]
+[% } %]
+</span></h6>
+
+[% if (not (issue.duplicateOf == null)) {%]
+<h6 style="text-align:center;">Duplicate of: <span class="font-weight-normal">[%=issue.duplicateOf.getHyperlink()%]</span></h6>
+[% } %]
+
+[% if (issue.duplicates.notEmpty()) {%]
+<h6 style="text-align:center;">Duplicates: <span class="font-weight-normal">
+[% for (issues in issue.duplicates) {%]
+[%=issue.getHyperlink() + ' | '%] 
+[% } %]
+</span></h6>
+[% } %]
+
+[% if (issue.blocking.notEmpty()) {%]
+<h6 style="text-align:center;">Blocking: <span class="font-weight-normal">
+[% for (issues in issue.blocking) {%]
+[%=issue.getHyperlink() + ' | '%] 
+[% } %]
+</span></h6>
+<h6 style="text-align:center;">Deapest blocking depth: <span class="font-weight-normal">[%=issue.deapestBlocking%]</span></h6>
+[% } %]
+
+[% if (issue.blockedBy.notEmpty()) {%]
+<h6 style="text-align:center;">Blocked by: <span class="font-weight-normal">
+[% for (issues in issue.blockedBy) {%]
+[%=issue.getHyperlink() + ' | '%] 
+[% } %]
+</span></h6>
+[% } %]
+
+[% for (comment in issue.comments) {%]
+[%=comment.getHtml()%]
+[% } %]
+</div>
+<br/>
+
+[% 
+operation Comment getHtml() : String {
+	var html : String = 
+	'<br/><div class="card" style="font-size: .95em">' +
+  		'<div class="card-header">Author: ' + 
+	  		self.author.getHyperlinkWithTeam() + ', Time: ' + 
+  		'</div>' +
+  		'<div class="card-body">' + 
+    	'<p class="card-text">' + self.text + '</p>';
+    	
+	for (comment in self.replies) {
+ 		html = html + comment.getHtml();
+ 	}
+ 	
+ 	html = html + '</div></div>'; 	
+ 	
+ 	return html;
+}
+
+operation Issue getBootstrapClass() : String {
+	if (self.isTypeOf(Bug) and self.open) {
+		return "table-danger";
+	} else if (self.isTypeOf(Enhancement) and self.open) {
+		return "table-primary";
+	} else if (self.isTypeOf(Bug) and not self.open) {
+		return "table-secondary";
+	} else {
+		return "table-info";
+	}
+}
+
+operation Issue getHyperlink() : String {
+	return '<a href="issue_' + self.title + '_' + self.id +'.html">' + self.title + '</a>';
+}
+
+operation Product getHyperlink() : String {
+	return '<a href="product_' + self.name + '_' + self.id +'.html">' + self.name + '</a>';
+}
+
+operation Version getHyperlink() : String {
+	return '<a href="product_' + self.rootProduct.name + '_version_' + self.name + '_' + self.id +'.html">' + self.rootProduct.name + '_' + self.name + '</a>';
+}
+
+operation Team getHyperlink() : String {
+	return '<a href="team_' + self.name + '_' + self.id +'.html">' + self.name + '</a>';
+}
+
+operation Developer getHyperlink() : String {
+	return '<a href="developer_' + self.firstName + '_' + self.surename + '_' + self.id +'.html">' + self.firstName + ' ' + self.surename + '</a>';
+}
+
+operation Developer getHyperlinkWithTeam() : String {
+	return '<a href="developer_' + self.firstName + '_' + self.surename + '_' + self.id +'.html">' + self.firstName + ' ' + self.surename + ' (' + self.team.name + ')</a>';
+}
+%]
+
+
+}

@@ -1,0 +1,102 @@
+context Issue {
+	constraint notSelfDuplicate {
+		check {
+			return not self.duplicates.exists(issue| issue == self);
+		}
+		
+		message : "IssueError: can not be a duplicate of itself. Issue: " + self
+		
+		fix {
+			title : "Remove the issue from the duplicates."
+			
+			do {
+				self.duplicates.remove(self);
+			}
+		}
+	}
+	
+	constraint noShortDescription {
+		check {
+			return self.description.length() >= 10;
+		}
+		
+		message : "IssueError: description must be 10 characters or longer. Issue: " + self
+	}
+	
+	constraint noBlockingCycles {
+		check {
+			var blockingCycle = false;
+	
+			for (issue in self.blocking) {
+				blockingCycle = blockingCycle or issue.isBlocking(self);
+			}
+			 
+			return not blockingCycle;
+		}
+		
+		message : "IssueError: blocking cycle."
+	}
+	
+	constraint noOpenBlockersForClosedIssues {
+	
+		check {
+			var openBlockers = self.blockedBy.select(issue | issue.open);
+			return openBlockers.isEmpty();		
+		}
+		
+		message: "IssueError: closed issues can not be blocked by an open issue. Issue: " + self 	
+		
+		fix {
+			title : "Close blocking issues which are open. Open Blockers: " + openBlockers
+			
+			do {
+				for (issue in openBlockers) {
+					issue.open = false;
+				}
+			}
+		}
+	}
+}
+
+operation Issue isBlocking(rootIssue : Issue) : Boolean {
+
+	if(self.blocking.isEmpty()) {
+		return false;
+	} 
+	else if (self.blocking.exists(issue | issue == rootIssue)) {
+		return true;
+	} 
+	else {
+		var indirectBlocking = false;
+	
+		for (issue in self.blocking) {
+		indirectBlocking = indirectBlocking or issue.isBlocking(rootIssue);
+		}
+		
+		return indirectBlocking;
+	}
+}
+
+context Enhancement {
+	constraint notBlockingBugObjects {
+		check {
+			var blockedBugs = self.blocking.select(issue | issue.isTypeOf(Bug));
+			return blockedBugs.isEmpty();
+		}
+		
+		message : "IssueEnhancmentError: enhancements can not block bugs. Issue: " + self
+		
+		fix {
+			title : "Remove bug blockings."
+			
+			do {
+				for (bug in blockedBugs) {
+					self.blocking.remove(bug);
+				}
+			}
+		}
+	}
+}
+
+
+

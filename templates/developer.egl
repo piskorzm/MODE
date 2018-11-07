@@ -1,0 +1,105 @@
+[%=TemplateFactory.load("templates/imports.egl").process()%]
+[%=TemplateFactory.load("templates/navbar.egl").process()%]
+
+<div class="container">
+<h1 style="text-align:center;">[%=developer.firstName%] [%=developer.surename%]</h1>
+
+<h6 style="text-align:center;">Developer ID: <span class="font-weight-normal">[%=developer.id%]</span></h6>
+<h6 style="text-align:center;">Team: <span class="font-weight-normal">[%=developer.team.getHyperlink()%]</span></h6>
+
+<h6 style="text-align:center;">Reported issues</h6>
+<table class="table table-sm">
+  <thead>
+	<tr>
+      <th scope="col">ID</th>
+      <th scope="col">Type</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Open</th>
+      <th scope="col">Open Time</th>
+      <th scope="col">Close Time</th>
+    </tr>
+  </thead>
+  <tbody>
+  	[% for (issue in developer.reportedIssues) {%]
+    <tr class="[%=issue.getBootstrapClass()%]">
+      <td>[%=issue.id%]</td>
+      <td>[%=issue.type.name%]</td>
+      <td>[%=issue.getHyperlink()%]</td>
+      <td>[%=issue.description%]</td>
+      <td>[%=issue.open%]</td>
+      <td>[%=issue.openTime%]</td>
+      <td>[%=issue.closeTime%]</td>
+    </tr>
+	[%}%]
+  </tbody>
+</table>
+
+<h6 style="text-align:center;">Assigned issues</h6>
+<table class="table table-sm">
+  <thead>
+	<tr>
+      <th scope="col">ID</th>
+      <th scope="col">Type</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Open</th>
+      <th scope="col">Open Time</th>
+      <th scope="col">Close Time</th>
+    </tr>
+  </thead>
+  <tbody>
+  	[% for (issue in developer.assignedIssues) {%]
+    <tr class="[%=issue.getBootstrapClass()%]">
+     
+      <td>[%=issue.id%]</td>
+      <td>[%=issue.type.name%]</td>
+      <td>[%=issue.getHyperlink()%]</td>
+      <td>[%=issue.description%]</td>
+      <td>[%=issue.open%]</td>
+      <td>[%=issue.openTime%]</td>
+      <td>[%=issue.closeTime%]</td>
+    </tr>
+	[%}%]
+  </tbody>
+</table>
+
+</div>
+
+[% 
+operation Issue getBootstrapClass() : String {
+	if (self.isTypeOf(Bug) and self.open) {
+		return "table-danger";
+	} else if (self.isTypeOf(Enhancement) and self.open) {
+		return "table-primary";
+	} else if (self.isTypeOf(Bug) and not self.open) {
+		return "table-secondary";
+	} else {
+		return "table-info";
+	}
+}
+
+operation Issue getHyperlink() : String {
+	return '<a href="issue_' + self.title + '_' + self.id +'.html">' + self.title + '</a>';
+}
+
+operation Product getHyperlink() : String {
+	return '<a href="product_' + self.name + '_' + self.id +'.html">' + self.name + '</a>';
+}
+
+operation Version getHyperlink() : String {
+	return '<a href="product_' + self.rootProduct.name + '_version_' + self.name + '_' + self.id +'.html">' + self.rootProduct.name + '_' + self.name + '</a>';
+}
+
+operation Team getHyperlink() : String {
+	return '<a href="team_' + self.name + '_' + self.id +'.html">' + self.name + '</a>';
+}
+
+operation Developer getHyperlink() : String {
+	return '<a href="developer_' + self.firstName + '_' + self.surename + '_' + self.id +'.html">' + self.firstName + ' ' + self.surename + '</a>';
+}
+
+operation Developer getHyperlinkWithTeam() : String {
+	return '<a href="developer_' + self.firstName + '_' + self.surename + '_' + self.id +'.html">' + self.firstName + ' ' + self.surename + ' (' + self.team.name + ')</a>';
+}
+%]

@@ -1,0 +1,100 @@
+@namespace(uri="issuer", prefix="issuer")
+@gmf
+package issuer;
+
+@gmf.diagram
+class Issuer {
+	attr String name; 
+	val Product[*] products;
+	val Team[*] teams;
+	val Issue[*] issues;
+}
+
+@gmf.node(label = "name")
+class Product {
+	id attr int ~id;
+	attr String name;
+	@gmf.compartment(layout="list")
+	val Version[*] versions;
+	derived transient volatile readonly ref Issue[*] issues;
+}
+
+@gmf.node(label = "name")
+class Version {
+	id attr int ~id;
+	attr String name;
+	attr Date releaseTime;
+	ref Product#versions rootProduct;
+	@gmf.link(target.decoration="arrow", style="dash")
+	ref Issue[*]#affectedVersions issues; 
+}
+
+@gmf.node(label = "name")
+class Team {
+	id attr int ~id;
+	attr String name;
+	@gmf.compartment(layout="list")
+	val Developer[*] members;
+	derived transient volatile readonly ref Issue[*] reportedIssues;
+	derived transient volatile readonly ref Issue[*] assignedIssues;
+}
+
+@gmf.node(label = "firstName")
+class Developer {
+	id attr int ~id;
+	attr String firstName;
+	attr String surename;
+	ref Team#members team;
+	@gmf.link(target.decoration="arrow", style="dash")
+	ref Issue[*]#reportedBy reportedIssues;
+	ref Issue[*]#assignedTo assignedIssues;
+	@gmf.link(target.decoration="arrow", style="dash")
+	ref Comment[*]#author comments;
+}
+
+abstract class Issue {
+	id attr int ~id;
+	attr String title;
+	attr String description;
+	attr Boolean open;
+	attr Date openTime;
+	attr Date closeTime;
+	@gmf.compartment(layout="list")
+	val Comment[*] comments;
+	ref Developer#reortedIssues reportedBy;
+	@gmf.link(target.decoration="arrow", style="dash")
+	ref Developer[*]#assignedIssues assignedTo;
+	@gmf.link(target.decoration="arrow", style="dash")
+	ref Version[*]#issues affectedVersions;
+	ref Issue[*]#blocking blockedBy;
+	@gmf.link(target.decoration="arrow", style="dash")
+	ref Issue[*]#blockedBy blocking;
+	@gmf.link(target.decoration="arrow", style="dash")
+	ref Issue#duplicates duplicateOf;
+	ref Issue[*]#duplicateOf duplicates;
+	derived transient volatile readonly attr int deapestBlocking;
+}
+
+@gmf.node(label = "title")
+class Bug extends Issue {
+	
+}
+
+@gmf.node(label = "title")
+class Enhancement extends Issue {
+	
+}
+
+@gmf.node(label = "text")
+class Comment {
+	id attr int ~id;
+	attr String text;
+	attr Date time;
+	@gmf.compartment(layout="list")
+	val Comment[*] replies;
+	ref Issue#comments regardingIssue;
+	ref Comment#replies parentComment;
+	ref Developer#comments author;
+}
+
+datatype Date : "java.util.Date";

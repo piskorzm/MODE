@@ -1,0 +1,79 @@
+rule productList transform issuer : Issuer {
+	template : "templates/products.egl"
+	
+	parameters : Map {
+		"products" = issuer.products
+	}
+	
+	target : "website/products.html"	
+}
+
+rule teams transform issuer : Issuer {
+	template : "templates/teams.egl"
+	
+	parameters : Map {
+		"teams" = issuer.teams
+	}
+	
+	target : "website/teams.html"	
+}
+
+rule allIssues transform issuer : Issuer {
+	template : "templates/all-issues.egl"
+	
+	parameters : Map {
+		"issues" = issuer.issues
+	}
+	
+	target : "website/all-issues.html"	
+}
+
+rule blockingIssues transform issuer : Issuer {
+	template : "templates/blocking-issues.egl"
+	
+	parameters : Map {
+		"issues" = issuer.issues
+	}
+	
+	target : "website/blocking-issues.html"	
+}
+
+rule product transform product : Product {
+	template : "templates/product.egl"
+	
+	target : "website/product_" + product.name + "_" + product.id + ".html"
+}
+
+rule version transform version : Version {
+	template : "templates/version.egl"
+	
+	target : "website/product_" + version.rootProduct.name + "_version_" + version.name + "_" + version.id + ".html"
+}
+
+rule team transform team : Team {
+	template : "templates/team.egl"
+	
+	target : "website/team_" + team.name + "_" + team.id + ".html"
+}
+
+rule developer transform developer : Developer {
+	template : "templates/developer.egl"
+	
+	target : "website/developer_" + developer.firstName + "_" + developer.surename + "_" + developer.id + ".html"
+}
+
+rule enhancement transform issue : Enhancement {
+	template : "templates/issue.egl"
+	
+	target : "website/issue_" + issue.title + "_" + issue.id + ".html"
+}
+
+rule bug transform issue : Bug {
+	template : "templates/issue.egl"
+	
+	target : "website/issue_" + issue.title + "_"  + issue.id + ".html"
+}
+
+post { 
+	"Transformation finished".println();
+}
