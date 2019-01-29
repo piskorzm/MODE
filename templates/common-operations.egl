@@ -1,4 +1,4 @@
-[% 
+[%
 operation Issue getBootstrapClass() : String {
 	if (self.isTypeOf(Bug) and self.open) {
 		return "table-danger";
@@ -11,6 +11,16 @@ operation Issue getBootstrapClass() : String {
 	}
 }
 
+operation Issue blockedIssuesCount() : Integer {
+	var blockedIssuesCount = self.blocking.size();
+	if (blockedIssuesCount > 0) {
+		for (issue in self.blocking) {
+			blockedIssuesCount = blockedIssuesCount + issue.blockedIssuesCount();
+		}
+	}
+	return blockedIssuesCount;
+} 
+
 operation Issue getHyperlink() : String {
 	return '<a href="issue_' + self.title + '_' + self.id +'.html">' + self.title + '</a>';
 }
@@ -20,7 +30,7 @@ operation Product getHyperlink() : String {
 }
 
 operation Version getHyperlink() : String {
-	return '<a href="product_' + self.product.name + '_version_' + self.name + self.id +'.html">' + self.product.name + '_' + self.name + '</a>';
+	return '<a href="product_' + self.rootProduct.name + '_version_' + self.name + '_' + self.id +'.html">' + self.rootProduct.name + '_' + self.name + '</a>';
 }
 
 operation Team getHyperlink() : String {

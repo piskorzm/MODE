@@ -1,3 +1,4 @@
+[% import "common-operations.egl"; %]
 [%=TemplateFactory.load("templates/imports.egl").process()%]
 [%=TemplateFactory.load("templates/navbar.egl").process()%]
 
@@ -28,29 +29,3 @@
 	  </tbody>
 	</table>
 </div>
-
-[%
-operation Issue getHyperlink() : String {
-	return '<a href="issue_' + self.title + '_' + self.id +'.html">' + self.title + '</a>';
-}
-
-operation Product getHyperlink() : String {
-	return '<a href="product_' + self.name + '_' + self.id +'.html">' + self.name + '</a>';
-}
-
-operation Version getHyperlink() : String {
-	return '<a href="product_' + self.rootProduct.name + '_version_' + self.name + '_' + self.id +'.html">' + self.rootProduct.name + '_' + self.name + '</a>';
-}
-
-operation Team getHyperlink() : String {
-	return '<a href="team_' + self.name + '_' + self.id +'.html">' + self.name + '</a>';
-}
-
-operation Developer getHyperlink() : String {
-	return '<a href="developer_' + self.firstName + '_' + self.surename + '_' + self.id +'.html">' + self.firstName + ' ' + self.surename + '</a>';
-}
-
-operation Developer getHyperlinkWithTeam() : String {
-	return '<a href="developer_' + self.firstName + '_' + self.surename + '_' + self.id +'.html">' + self.firstName + ' ' + self.surename + ' (' + self.team.name + ')</a>';
-}
-%]

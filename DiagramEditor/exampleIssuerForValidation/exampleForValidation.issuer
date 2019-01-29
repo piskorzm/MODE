@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issuer:Issuer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:issuer="issuer" name="exampleIssuerWithErrors">
+  <products id="3" name="product 1" description="product 1">
+    <versions id="4" name="3D" description="3D" issues="//@issues.0"/>
+    <versions id="5" name="2D" description="2D" issues="//@issues.0"/>
+  </products>
+  <products id="7" name="product 2" description="product 2">
+    <versions id="6" name="v1" description="v1" issues="//@issues.0"/>
+  </products>
+  <issues xsi:type="issuer:Bug" title="bug 1" description="Long description" open="true" affectedVersions="4 5 6" blocking="1" blockedBy="//@issues.2" duplicateOf="//@issues.0" duplicates="//@issues.0"/>
+  <issues xsi:type="issuer:Bug" id="1" title="bug 2" description="Long description" open="false" blocking="//@issues.2" blockedBy="//@issues.0"/>
+  <issues xsi:type="issuer:Bug" title="bug 3" description="Short" open="true" blocking="//@issues.0" blockedBy="1"/>
+  <issues xsi:type="issuer:Bug" id="8" title="bug 4" description="" open="false" blockedBy="9"/>
+  <issues xsi:type="issuer:Enhancement" id="9" title="enhancement 1" open="false" blocking="8"/>
+</issuer:Issuer>

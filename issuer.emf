@@ -1,100 +1,112 @@
-@namespace(uri="issuer", prefix="issuer")
 @gmf
+@namespace(uri="issuer", prefix="issuer")
 package issuer;
 
 @gmf.diagram
 class Issuer {
-	attr String name; 
-	val Product[*] products;
-	val Team[*] teams;
-	val Issue[*] issues;
+  attr String name;
+  val Product[*] products;
+  val Team[*] teams;
+  val Issue[*] issues;
 }
 
-@gmf.node(label = "name")
+@gmf.node(label="name")
 class Product {
-	id attr int ~id;
-	attr String name;
-	@gmf.compartment(layout="list")
-	val Version[*] versions;
-	derived transient volatile readonly ref Issue[*] issues;
+  id attr int ~id;
+  attr String name;
+  attr String description;
+
+  @gmf.compartment(layout="list")
+  val Version[*]#rootProduct versions;
+  
+  readonly volatile transient derived ref Issue[*] issues;
 }
 
-@gmf.node(label = "name")
+@gmf.node(label="name")
 class Version {
-	id attr int ~id;
-	attr String name;
-	attr Date releaseTime;
-	ref Product#versions rootProduct;
-	@gmf.link(target.decoration="arrow", style="dash")
-	ref Issue[*]#affectedVersions issues; 
+  id attr int ~id;
+  attr String name;
+  attr String description;
+  
+  ref Product#versions rootProduct;
+  
+  ref Issue[*]#affectedVersions issues;
 }
 
-@gmf.node(label = "name")
+@gmf.node(label="name")
 class Team {
-	id attr int ~id;
-	attr String name;
-	@gmf.compartment(layout="list")
-	val Developer[*] members;
-	derived transient volatile readonly ref Issue[*] reportedIssues;
-	derived transient volatile readonly ref Issue[*] assignedIssues;
+  id attr int ~id;
+  attr String name;
+
+  @gmf.compartment(layout="list")
+  val Developer[*]#team members;
+  
+  readonly volatile transient derived ref Issue[*] reportedIssues;
+  readonly volatile transient derived ref Issue[*] assignedIssues;
 }
 
-@gmf.node(label = "firstName")
+@gmf.node(label="firstName, surename")
 class Developer {
-	id attr int ~id;
-	attr String firstName;
-	attr String surename;
-	ref Team#members team;
-	@gmf.link(target.decoration="arrow", style="dash")
-	ref Issue[*]#reportedBy reportedIssues;
-	ref Issue[*]#assignedTo assignedIssues;
-	@gmf.link(target.decoration="arrow", style="dash")
-	ref Comment[*]#author comments;
+  id attr int ~id;
+  attr String firstName;
+  attr String surename;
+  ref Team#members team;
+  
+  @gmf.link(target.decoration="arrow", style="dash", color="0,0,0", 
+  tool.name="Reported issue")
+  ref Issue[*]#reportedBy reportedIssues;
+  ref Issue[*]#assignedTo assignedIssues;
+  
+  ref Comment[*]#author comments;
 }
 
 abstract class Issue {
-	id attr int ~id;
-	attr String title;
-	attr String description;
-	attr Boolean open;
-	attr Date openTime;
-	attr Date closeTime;
-	@gmf.compartment(layout="list")
-	val Comment[*] comments;
-	ref Developer#reortedIssues reportedBy;
-	@gmf.link(target.decoration="arrow", style="dash")
-	ref Developer[*]#assignedIssues assignedTo;
-	@gmf.link(target.decoration="arrow", style="dash")
-	ref Version[*]#issues affectedVersions;
-	ref Issue[*]#blocking blockedBy;
-	@gmf.link(target.decoration="arrow", style="dash")
-	ref Issue[*]#blockedBy blocking;
-	@gmf.link(target.decoration="arrow", style="dash")
-	ref Issue#duplicates duplicateOf;
-	ref Issue[*]#duplicateOf duplicates;
-	derived transient volatile readonly attr int deapestBlocking;
+  id attr int ~id;
+  attr String title;
+  attr String description;
+  attr Boolean open;
+
+  @gmf.compartment(layout="list")
+  val Comment[*]#regardingIssue comments;
+  
+  ref Developer#reportedIssues reportedBy;
+
+  @gmf.link(target.decoration="arrow", style="dash", color="55,55,255", 
+  tool.name="Assigned to", tool.small.path="null")
+  ref Developer[*]#assignedIssues assignedTo;
+
+  @gmf.link(target.decoration="arrow", style="dash", color="55,255,55", 
+  tool.name="Affected version", tool.small.path="null")
+  ref Version[*]#issues affectedVersions;
+  
+  @gmf.link(target.decoration="arrow", style="solid", color="255,55,55", 
+  tool.name="Blocking", tool.small.path="null")
+  ref Issue[*]#blockedBy blocking;
+  ref Issue[*]#blocking blockedBy;
+
+  @gmf.link(target.decoration="arrow", style="dot", color="155,155,155", 
+  tool.name="Duplicate of", tool.small.path="null")
+  ref Issue#duplicates duplicateOf;
+  ref Issue[*]#duplicateOf duplicates;
 }
 
-@gmf.node(label = "title")
+@gmf.node(label="title")
 class Bug extends Issue {
-	
 }
 
-@gmf.node(label = "title")
+@gmf.node(label="title")
 class Enhancement extends Issue {
-	
 }
 
-@gmf.node(label = "text")
+@gmf.node(label="text")
 class Comment {
-	id attr int ~id;
-	attr String text;
-	attr Date time;
-	@gmf.compartment(layout="list")
-	val Comment[*] replies;
-	ref Issue#comments regardingIssue;
-	ref Comment#replies parentComment;
-	ref Developer#comments author;
-}
+  id attr int ~id;
+  attr String text;
 
-datatype Date : "java.util.Date";
+  @gmf.compartment(layout="list")
+  val Comment[*]#parentComment replies;
+  
+  ref Issue#comments regardingIssue;
+  ref Comment#replies parentComment;
+  ref Developer#comments author;
+}

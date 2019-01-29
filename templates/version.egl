@@ -1,3 +1,4 @@
+[% import "common-operations.egl"; %]
 [%=TemplateFactory.load("templates/imports.egl").process()%]
 [%=TemplateFactory.load("templates/navbar.egl").process()%]
 
@@ -5,7 +6,6 @@
 <h1 style="text-align:center;">[%=version.rootProduct.name%]_[%=version.name%]</h1>
 <h6 style="text-align:center;">Version ID: <span class="font-weight-normal">[%=version.id%]</span></h6>
 <h6 style="text-align:center;">Root product: <span class="font-weight-normal">[%=version.rootProduct.getHyperlink()%]</span></h6>
-<h6 style="text-align:center;">Relaese time: <span class="font-weight-normal">[%=version.releaseTime%]</span></h6>
 
 <h6 style="text-align:center;">Open issues</h6>
 <table class="table table-sm">
@@ -14,10 +14,7 @@
       <th scope="col">ID</th>
       <th scope="col">Type</th>
       <th scope="col">Title</th>
-      <th scope="col">Description</th>
       <th scope="col">Open</th>
-      <th scope="col">Open Time</th>
-      <th scope="col">Close Time</th>
     </tr>
   </thead>
   <tbody>
@@ -26,10 +23,7 @@
       <td>[%=issue.id%]</td>
       <td>[%=issue.type.name%]</td>
       <td>[%=issue.getHyperlink()%]</td>
-      <td>[%=issue.description%]</td>
       <td>[%=issue.open%]</td>
-      <td>[%=issue.openTime%]</td>
-      <td>[%=issue.closeTime%]</td>
     </tr>
 	[%}%]
   </tbody>
@@ -42,10 +36,7 @@
       <th scope="col">ID</th>
       <th scope="col">Type</th>
       <th scope="col">Title</th>
-      <th scope="col">Description</th>
       <th scope="col">Open</th>
-      <th scope="col">Open Time</th>
-      <th scope="col">Close Time</th>
     </tr>
   </thead>
   <tbody>
@@ -54,51 +45,10 @@
       <td>[%=issue.id%]</td>
       <td>[%=issue.type.name%]</td>
       <td>[%=issue.getHyperlink()%]</td>
-      <td>[%=issue.description%]</td>
       <td>[%=issue.open%]</td>
-      <td>[%=issue.openTime%]</td>
-      <td>[%=issue.closeTime%]</td>
     </tr>
 	[%}%]
   </tbody>
 </table>
 
 </div>
-
-[% 
-operation Issue getBootstrapClass() : String {
-	if (self.isTypeOf(Bug) and self.open) {
-		return "table-danger";
-	} else if (self.isTypeOf(Enhancement) and self.open) {
-		return "table-primary";
-	} else if (self.isTypeOf(Bug) and not self.open) {
-		return "table-secondary";
-	} else {
-		return "table-info";
-	}
-}
-
-operation Issue getHyperlink() : String {
-	return '<a href="issue_' + self.title + '_' + self.id +'.html">' + self.title + '</a>';
-}
-
-operation Product getHyperlink() : String {
-	return '<a href="product_' + self.name + '_' + self.id +'.html">' + self.name + '</a>';
-}
-
-operation Version getHyperlink() : String {
-	return '<a href="product_' + self.rootProduct.name + '_version_' + self.name + '_' + self.id +'.html">' + self.rootProduct.name + '_' + self.name + '</a>';
-}
-
-operation Team getHyperlink() : String {
-	return '<a href="team_' + self.name + '_' + self.id +'.html">' + self.name + '</a>';
-}
-
-operation Developer getHyperlink() : String {
-	return '<a href="developer_' + self.firstName + '_' + self.surename + '_' + self.id +'.html">' + self.firstName + ' ' + self.surename + '</a>';
-}
-
-operation Developer getHyperlinkWithTeam() : String {
-	return '<a href="developer_' + self.firstName + '_' + self.surename + '_' + self.id +'.html">' + self.firstName + ' ' + self.surename + ' (' + self.team.name + ')</a>';
-}
-%]

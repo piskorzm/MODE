@@ -1,0 +1,73 @@
+pre {
+	"Transformation starting".println();
+}
+
+rule OnlyOpenIssues
+transform source : Source!Issuer
+to target : Target!Issuer {	
+	target.issues = source.issues.select(issue | issue.open);
+	
+	target.products = source.products.select(product | product.hasOpenIssues());
+	for (product in target.products) {
+		product.versions = product.versions.select(version | version.hasOpenIssues());
+	
+		for (version in product.versions) {
+			version.issues = version.issues.select(issue | issue.open);
+		}
+	}
+	
+	target.teams = source.teams.select(team | team.hasOpenIssues());
+	for (team in target.teams) {
+		team.members = team.members.select(member | member.hasOpenIssues());
+		
+		for (member in team.members) {
+			member.reportedIssues = member.reportedIssues.select(issue | issue.open);
+			member.assignedIssues = member.assignedIssues.select(issue | issue.open);
+		}
+	}
+}
+
+operation Source!Product hasOpenIssues() : Boolean {
+	for (version in self.versions) {
+		if (version.hasOpenIssues()) {
+			return true;
+		}
+	}
+	return false;
+}
+
+operation Source!Version hasOpenIssues() : Boolean {
+	for (issue in self.issues) {
+		if (issue.open) {
+			return true;
+		}
+	}
+	return false;
+}
+
+operation Source!Team hasOpenIssues() : Boolean {
+	for (member in self.members) {
+		if (member.hasOpenIssues()) {
+			return true;
+		}
+	}
+	return false;
+}
+
+operation Source!Developer hasOpenIssues() : Boolean {
+	for (issue in self.reportedIssues) {
+		if (issue.open) {
+			return true;
+		}
+	}
+	for (issue in self.assignedIssues) {
+		if (issue.open) {
+			return true;
+		}
+	}
+	return false;
+}
+
+post {
+	"Transformation finished".println();
+}

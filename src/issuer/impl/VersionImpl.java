@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link issuer.impl.VersionImpl#getId <em>Id</em>}</li>
  *   <li>{@link issuer.impl.VersionImpl#getName <em>Name</em>}</li>
- *   <li>{@link issuer.impl.VersionImpl#getReleaseTime <em>Release Time</em>}</li>
+ *   <li>{@link issuer.impl.VersionImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link issuer.impl.VersionImpl#getRootProduct <em>Root Product</em>}</li>
  *   <li>{@link issuer.impl.VersionImpl#getIssues <em>Issues</em>}</li>
  * </ul>
@@ -84,24 +84,24 @@ public class VersionImpl extends EObjectImpl implements Version {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getReleaseTime() <em>Release Time</em>}' attribute.
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getReleaseTime()
+	 * @see #getDescription()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Date RELEASE_TIME_EDEFAULT = null;
+	protected static final String DESCRIPTION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getReleaseTime() <em>Release Time</em>}' attribute.
+	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getReleaseTime()
+	 * @see #getDescription()
 	 * @generated
 	 * @ordered
 	 */
-	protected Date releaseTime = RELEASE_TIME_EDEFAULT;
+	protected String description = DESCRIPTION_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getIssues() <em>Issues</em>}' reference list.
@@ -179,8 +179,8 @@ public class VersionImpl extends EObjectImpl implements Version {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Date getReleaseTime() {
-		return releaseTime;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
@@ -188,11 +188,11 @@ public class VersionImpl extends EObjectImpl implements Version {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReleaseTime(Date newReleaseTime) {
-		Date oldReleaseTime = releaseTime;
-		releaseTime = newReleaseTime;
+	public void setDescription(String newDescription) {
+		String oldDescription = description;
+		description = newDescription;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IssuerPackage.VERSION__RELEASE_TIME, oldReleaseTime, releaseTime));
+			eNotify(new ENotificationImpl(this, Notification.SET, IssuerPackage.VERSION__DESCRIPTION, oldDescription, description));
 	}
 
 	/**
@@ -309,8 +309,8 @@ public class VersionImpl extends EObjectImpl implements Version {
 				return getId();
 			case IssuerPackage.VERSION__NAME:
 				return getName();
-			case IssuerPackage.VERSION__RELEASE_TIME:
-				return getReleaseTime();
+			case IssuerPackage.VERSION__DESCRIPTION:
+				return getDescription();
 			case IssuerPackage.VERSION__ROOT_PRODUCT:
 				return getRootProduct();
 			case IssuerPackage.VERSION__ISSUES:
@@ -334,8 +334,8 @@ public class VersionImpl extends EObjectImpl implements Version {
 			case IssuerPackage.VERSION__NAME:
 				setName((String)newValue);
 				return;
-			case IssuerPackage.VERSION__RELEASE_TIME:
-				setReleaseTime((Date)newValue);
+			case IssuerPackage.VERSION__DESCRIPTION:
+				setDescription((String)newValue);
 				return;
 			case IssuerPackage.VERSION__ROOT_PRODUCT:
 				setRootProduct((Product)newValue);
@@ -362,8 +362,8 @@ public class VersionImpl extends EObjectImpl implements Version {
 			case IssuerPackage.VERSION__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case IssuerPackage.VERSION__RELEASE_TIME:
-				setReleaseTime(RELEASE_TIME_EDEFAULT);
+			case IssuerPackage.VERSION__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
 				return;
 			case IssuerPackage.VERSION__ROOT_PRODUCT:
 				setRootProduct((Product)null);
@@ -387,8 +387,8 @@ public class VersionImpl extends EObjectImpl implements Version {
 				return id != ID_EDEFAULT;
 			case IssuerPackage.VERSION__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case IssuerPackage.VERSION__RELEASE_TIME:
-				return RELEASE_TIME_EDEFAULT == null ? releaseTime != null : !RELEASE_TIME_EDEFAULT.equals(releaseTime);
+			case IssuerPackage.VERSION__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case IssuerPackage.VERSION__ROOT_PRODUCT:
 				return getRootProduct() != null;
 			case IssuerPackage.VERSION__ISSUES:
@@ -411,8 +411,8 @@ public class VersionImpl extends EObjectImpl implements Version {
 		result.append(id);
 		result.append(", name: ");
 		result.append(name);
-		result.append(", releaseTime: ");
-		result.append(releaseTime);
+		result.append(", description: ");
+		result.append(description);
 		result.append(')');
 		return result.toString();
 	}

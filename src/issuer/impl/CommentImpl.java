@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -34,7 +34,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link issuer.impl.CommentImpl#getId <em>Id</em>}</li>
  *   <li>{@link issuer.impl.CommentImpl#getText <em>Text</em>}</li>
- *   <li>{@link issuer.impl.CommentImpl#getTime <em>Time</em>}</li>
  *   <li>{@link issuer.impl.CommentImpl#getReplies <em>Replies</em>}</li>
  *   <li>{@link issuer.impl.CommentImpl#getRegardingIssue <em>Regarding Issue</em>}</li>
  *   <li>{@link issuer.impl.CommentImpl#getParentComment <em>Parent Comment</em>}</li>
@@ -84,26 +83,6 @@ public class CommentImpl extends EObjectImpl implements Comment {
 	 * @ordered
 	 */
 	protected String text = TEXT_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getTime() <em>Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Date TIME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTime() <em>Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected Date time = TIME_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getReplies() <em>Replies</em>}' containment reference list.
@@ -191,30 +170,9 @@ public class CommentImpl extends EObjectImpl implements Comment {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Date getTime() {
-		return time;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTime(Date newTime) {
-		Date oldTime = time;
-		time = newTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IssuerPackage.COMMENT__TIME, oldTime, time));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<Comment> getReplies() {
 		if (replies == null) {
-			replies = new EObjectContainmentEList<Comment>(Comment.class, this, IssuerPackage.COMMENT__REPLIES);
+			replies = new EObjectContainmentWithInverseEList<Comment>(Comment.class, this, IssuerPackage.COMMENT__REPLIES, IssuerPackage.COMMENT__PARENT_COMMENT);
 		}
 		return replies;
 	}
@@ -366,9 +324,12 @@ public class CommentImpl extends EObjectImpl implements Comment {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case IssuerPackage.COMMENT__REPLIES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getReplies()).basicAdd(otherEnd, msgs);
 			case IssuerPackage.COMMENT__REGARDING_ISSUE:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
@@ -433,8 +394,6 @@ public class CommentImpl extends EObjectImpl implements Comment {
 				return getId();
 			case IssuerPackage.COMMENT__TEXT:
 				return getText();
-			case IssuerPackage.COMMENT__TIME:
-				return getTime();
 			case IssuerPackage.COMMENT__REPLIES:
 				return getReplies();
 			case IssuerPackage.COMMENT__REGARDING_ISSUE:
@@ -462,9 +421,6 @@ public class CommentImpl extends EObjectImpl implements Comment {
 				return;
 			case IssuerPackage.COMMENT__TEXT:
 				setText((String)newValue);
-				return;
-			case IssuerPackage.COMMENT__TIME:
-				setTime((Date)newValue);
 				return;
 			case IssuerPackage.COMMENT__REPLIES:
 				getReplies().clear();
@@ -497,9 +453,6 @@ public class CommentImpl extends EObjectImpl implements Comment {
 			case IssuerPackage.COMMENT__TEXT:
 				setText(TEXT_EDEFAULT);
 				return;
-			case IssuerPackage.COMMENT__TIME:
-				setTime(TIME_EDEFAULT);
-				return;
 			case IssuerPackage.COMMENT__REPLIES:
 				getReplies().clear();
 				return;
@@ -528,8 +481,6 @@ public class CommentImpl extends EObjectImpl implements Comment {
 				return id != ID_EDEFAULT;
 			case IssuerPackage.COMMENT__TEXT:
 				return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
-			case IssuerPackage.COMMENT__TIME:
-				return TIME_EDEFAULT == null ? time != null : !TIME_EDEFAULT.equals(time);
 			case IssuerPackage.COMMENT__REPLIES:
 				return replies != null && !replies.isEmpty();
 			case IssuerPackage.COMMENT__REGARDING_ISSUE:
@@ -556,8 +507,6 @@ public class CommentImpl extends EObjectImpl implements Comment {
 		result.append(id);
 		result.append(", text: ");
 		result.append(text);
-		result.append(", time: ");
-		result.append(time);
 		result.append(')');
 		return result.toString();
 	}

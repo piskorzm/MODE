@@ -1,3 +1,7 @@
+post { 
+	"Website generation started".println();
+}
+
 rule productList transform issuer : Issuer {
 	template : "templates/products.egl"
 	
@@ -75,5 +79,5 @@ rule bug transform issue : Bug {
 }
 
 post { 
-	"Transformation finished".println();
+	"Website generation finished".println();
 }

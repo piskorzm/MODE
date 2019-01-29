@@ -1,13 +1,27 @@
+post { 
+	"Validation started".println();
+}
+
 context Issue {
+	constraint uniqueId {
+		check {
+			var allIssues = InputModel!Issue.all();
+			var issuesWithSameId = allIssues.select(issue | issue.id = self.id and issue <> self);
+			return issuesWithSameId.size() = 0;
+		}
+		
+		message : "IssueError: issue Id must be unique." + self.getIssueString() + " COLLIDES WITH " + issuesWithSameId.getIssueListString()
+	}
+	
 	constraint notSelfDuplicate {
 		check {
 			return not self.duplicates.exists(issue| issue == self);
 		}
 		
-		message : "IssueError: can not be a duplicate of itself. Issue: " + self
+		message : "IssueError: can not be a duplicate of itself." + self.getIssueString()
 		
 		fix {
-			title : "Remove the issue from the duplicates."
+			title : "Remove the issue from its duplicates."
 			
 			do {
 				self.duplicates.remove(self);
@@ -17,41 +31,67 @@ context Issue {
 	
 	constraint noShortDescription {
 		check {
-			return self.description.length() >= 10;
+			return not (self.description = null) and self.description.length() >= 10;
 		}
 		
-		message : "IssueError: description must be 10 characters or longer. Issue: " + self
+		message : "IssueError: description must be 10 characters or longer." + self.getIssueString()
 	}
 	
-	constraint noBlockingCycles {
+	constraint allAffectedVersionsHaveSameRootProduct {
+		
 		check {
-			var blockingCycle = false;
-	
-			for (issue in self.blocking) {
-				blockingCycle = blockingCycle or issue.isBlocking(self);
-			}
-			 
-			return not blockingCycle;
+			return self.affectedVersions.forAll(version | version.rootProduct == self.affectedVersions[0].rootProduct);
 		}
 		
-		message : "IssueError: blocking cycle."
+		message: "IssueError: all versions affected by an issue must be of the same product." + self.getIssueString()
 	}
 	
 	constraint noOpenBlockersForClosedIssues {
 	
 		check {
-			var openBlockers = self.blockedBy.select(issue | issue.open);
-			return openBlockers.isEmpty();		
+			var closedBlockers = self.blockedBy.select(issue | not issue.open);
+			return closedBlockers.isEmpty();		
 		}
 		
-		message: "IssueError: closed issues can not be blocked by an open issue. Issue: " + self 	
+		message: "IssueError: closed issues can not be blocked by an open issue." + self.getIssueString()
 		
 		fix {
-			title : "Close blocking issues which are open. Open Blockers: " + openBlockers
+			title : "Close blocking issues which are open."
+
 			
 			do {
 				for (issue in openBlockers) {
 					issue.open = false;
+				}
+			}
+		}
+	}
+	
+	constraint noBlockingCycles {
+		check {
+			return not self.isBlocking(self);
+		}
+		
+		message : "IssueError: blocking cycle involving " + self.getIssueString()
+	}
+}
+
+context Enhancement {
+	constraint notBlockingBugObjects {
+		check {
+			var blockedBugs = self.blocking.select(issue | issue.isTypeOf(Bug));
+			return blockedBugs.isEmpty();
+		}
+		
+		message : "IssueEnhancmentError: enhancements can not block bugs." + self.getIssueString() +
+			 " IS BLOCKING BUGS " + blockedBugs.getIssueListString()
+		
+		fix {
+			title : "Remove bug blockings."
+			
+			do {
+				for (bug in blockedBugs) {
+					self.blocking.remove(bug);
 				}
 			}
 		}
@@ -70,33 +110,39 @@ operation Issue isBlocking(rootIssue : Issue) : Boolean {
 		var indirectBlocking = false;
 	
 		for (issue in self.blocking) {
-		indirectBlocking = indirectBlocking or issue.isBlocking(rootIssue);
+			indirectBlocking = indirectBlocking or issue.isBlocking(rootIssue);
 		}
 		
 		return indirectBlocking;
 	}
 }
 
-context Enhancement {
-	constraint notBlockingBugObjects {
-		check {
-			var blockedBugs = self.blocking.select(issue | issue.isTypeOf(Bug));
-			return blockedBugs.isEmpty();
-		}
-		
-		message : "IssueEnhancmentError: enhancements can not block bugs. Issue: " + self
-		
-		fix {
-			title : "Remove bug blockings."
-			
-			do {
-				for (bug in blockedBugs) {
-					self.blocking.remove(bug);
-				}
-			}
-		}
+operation Sequence getIssueListString() : String {
+	var output = "[";
+	for (issue in self) {
+		output = output + issue.getIssueString() + ",";
 	}
+	output = output.substring(0,output.length()-1);
+	output = output + " ]";
+	
+	return output;
 }
 
+operation OrderedSet getIssueListString() : String {
+	var output = "[";
+	for (issue in self) {
+		output = output + issue.getIssueString() + ",";
+	}
+	output = output.substring(0,output.length()-1);
+	output = output + " ]";
+	
+	return output;
+}
 
+operation Issue getIssueString() : String {
+	 return " Issue: " + self.`title` + " (id: " + self.id + ")";
+}
 
+post { 
+	"Validation finished".println();
+}

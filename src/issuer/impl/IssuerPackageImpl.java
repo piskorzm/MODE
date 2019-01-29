@@ -7,7 +7,6 @@ import issuer.Comment;
 import issuer.Developer;
 import issuer.Enhancement;
 import issuer.Issue;
-import issuer.IssueType;
 import issuer.Issuer;
 import issuer.IssuerFactory;
 import issuer.IssuerPackage;
@@ -20,7 +19,6 @@ import java.util.Date;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -95,13 +93,6 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	private EClass commentEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EDataType dateEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -241,8 +232,17 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getProduct_Description() {
+		return (EAttribute)productEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getProduct_Versions() {
-		return (EReference)productEClass.getEStructuralFeatures().get(2);
+		return (EReference)productEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -251,7 +251,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	public EReference getProduct_Issues() {
-		return (EReference)productEClass.getEStructuralFeatures().get(3);
+		return (EReference)productEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -286,7 +286,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getVersion_ReleaseTime() {
+	public EAttribute getVersion_Description() {
 		return (EAttribute)versionEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -349,8 +349,8 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTeam_AssignedIssues() {
-		return (EReference)teamEClass.getEStructuralFeatures().get(4);
+	public EReference getTeam_ReportedIssues() {
+		return (EReference)teamEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -358,8 +358,8 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTeam_ReportedIssues() {
-		return (EReference)teamEClass.getEStructuralFeatures().get(3);
+	public EReference getTeam_AssignedIssues() {
+		return (EReference)teamEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -484,26 +484,8 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getIssue_OpenTime() {
-		return (EAttribute)issueEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIssue_CloseTime() {
-		return (EAttribute)issueEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getIssue_Comments() {
-		return (EReference)issueEClass.getEStructuralFeatures().get(6);
+		return (EReference)issueEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -512,7 +494,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	public EReference getIssue_ReportedBy() {
-		return (EReference)issueEClass.getEStructuralFeatures().get(7);
+		return (EReference)issueEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -521,7 +503,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	public EReference getIssue_AssignedTo() {
-		return (EReference)issueEClass.getEStructuralFeatures().get(8);
+		return (EReference)issueEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -530,7 +512,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	public EReference getIssue_AffectedVersions() {
-		return (EReference)issueEClass.getEStructuralFeatures().get(9);
+		return (EReference)issueEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -539,7 +521,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	public EReference getIssue_BlockedBy() {
-		return (EReference)issueEClass.getEStructuralFeatures().get(10);
+		return (EReference)issueEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -548,7 +530,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	public EReference getIssue_Blocking() {
-		return (EReference)issueEClass.getEStructuralFeatures().get(11);
+		return (EReference)issueEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -557,7 +539,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	public EReference getIssue_DuplicateOf() {
-		return (EReference)issueEClass.getEStructuralFeatures().get(12);
+		return (EReference)issueEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -566,16 +548,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	public EReference getIssue_Duplicates() {
-		return (EReference)issueEClass.getEStructuralFeatures().get(13);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIssue_DeapestBlocking() {
-		return (EAttribute)issueEClass.getEStructuralFeatures().get(14);
+		return (EReference)issueEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -628,17 +601,8 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getComment_Time() {
-		return (EAttribute)commentEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getComment_Replies() {
-		return (EReference)commentEClass.getEStructuralFeatures().get(3);
+		return (EReference)commentEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -647,7 +611,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	public EReference getComment_RegardingIssue() {
-		return (EReference)commentEClass.getEStructuralFeatures().get(4);
+		return (EReference)commentEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -656,7 +620,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	public EReference getComment_ParentComment() {
-		return (EReference)commentEClass.getEStructuralFeatures().get(5);
+		return (EReference)commentEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -665,16 +629,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	 * @generated
 	 */
 	public EReference getComment_Author() {
-		return (EReference)commentEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EDataType getDate() {
-		return dateEDataType;
+		return (EReference)commentEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -714,13 +669,14 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 		productEClass = createEClass(PRODUCT);
 		createEAttribute(productEClass, PRODUCT__ID);
 		createEAttribute(productEClass, PRODUCT__NAME);
+		createEAttribute(productEClass, PRODUCT__DESCRIPTION);
 		createEReference(productEClass, PRODUCT__VERSIONS);
 		createEReference(productEClass, PRODUCT__ISSUES);
 
 		versionEClass = createEClass(VERSION);
 		createEAttribute(versionEClass, VERSION__ID);
 		createEAttribute(versionEClass, VERSION__NAME);
-		createEAttribute(versionEClass, VERSION__RELEASE_TIME);
+		createEAttribute(versionEClass, VERSION__DESCRIPTION);
 		createEReference(versionEClass, VERSION__ROOT_PRODUCT);
 		createEReference(versionEClass, VERSION__ISSUES);
 
@@ -745,17 +701,14 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 		createEAttribute(issueEClass, ISSUE__TITLE);
 		createEAttribute(issueEClass, ISSUE__DESCRIPTION);
 		createEAttribute(issueEClass, ISSUE__OPEN);
-		createEAttribute(issueEClass, ISSUE__OPEN_TIME);
-		createEAttribute(issueEClass, ISSUE__CLOSE_TIME);
 		createEReference(issueEClass, ISSUE__COMMENTS);
 		createEReference(issueEClass, ISSUE__REPORTED_BY);
 		createEReference(issueEClass, ISSUE__ASSIGNED_TO);
 		createEReference(issueEClass, ISSUE__AFFECTED_VERSIONS);
-		createEReference(issueEClass, ISSUE__BLOCKED_BY);
 		createEReference(issueEClass, ISSUE__BLOCKING);
+		createEReference(issueEClass, ISSUE__BLOCKED_BY);
 		createEReference(issueEClass, ISSUE__DUPLICATE_OF);
 		createEReference(issueEClass, ISSUE__DUPLICATES);
-		createEAttribute(issueEClass, ISSUE__DEAPEST_BLOCKING);
 
 		bugEClass = createEClass(BUG);
 
@@ -764,14 +717,10 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 		commentEClass = createEClass(COMMENT);
 		createEAttribute(commentEClass, COMMENT__ID);
 		createEAttribute(commentEClass, COMMENT__TEXT);
-		createEAttribute(commentEClass, COMMENT__TIME);
 		createEReference(commentEClass, COMMENT__REPLIES);
 		createEReference(commentEClass, COMMENT__REGARDING_ISSUE);
 		createEReference(commentEClass, COMMENT__PARENT_COMMENT);
 		createEReference(commentEClass, COMMENT__AUTHOR);
-
-		// Create data types
-		dateEDataType = createEDataType(DATE);
 	}
 
 	/**
@@ -815,20 +764,21 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 		initEClass(productEClass, Product.class, "Product", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getProduct_Id(), ecorePackage.getEInt(), "id", null, 0, 1, Product.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProduct_Name(), ecorePackage.getEString(), "name", null, 0, 1, Product.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProduct_Versions(), this.getVersion(), null, "versions", null, 0, -1, Product.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProduct_Description(), ecorePackage.getEString(), "description", null, 0, 1, Product.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProduct_Versions(), this.getVersion(), this.getVersion_RootProduct(), "versions", null, 0, -1, Product.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProduct_Issues(), this.getIssue(), null, "issues", null, 0, -1, Product.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(versionEClass, Version.class, "Version", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getVersion_Id(), ecorePackage.getEInt(), "id", null, 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVersion_Name(), ecorePackage.getEString(), "name", null, 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVersion_ReleaseTime(), this.getDate(), "releaseTime", null, 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVersion_Description(), ecorePackage.getEString(), "description", null, 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVersion_RootProduct(), this.getProduct(), this.getProduct_Versions(), "rootProduct", null, 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVersion_Issues(), this.getIssue(), this.getIssue_AffectedVersions(), "issues", null, 0, -1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(teamEClass, Team.class, "Team", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTeam_Id(), ecorePackage.getEInt(), "id", null, 0, 1, Team.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTeam_Name(), ecorePackage.getEString(), "name", null, 0, 1, Team.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTeam_Members(), this.getDeveloper(), null, "members", null, 0, -1, Team.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTeam_Members(), this.getDeveloper(), this.getDeveloper_Team(), "members", null, 0, -1, Team.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTeam_ReportedIssues(), this.getIssue(), null, "reportedIssues", null, 0, -1, Team.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getTeam_AssignedIssues(), this.getIssue(), null, "assignedIssues", null, 0, -1, Team.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
@@ -846,17 +796,14 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 		initEAttribute(getIssue_Title(), ecorePackage.getEString(), "title", null, 0, 1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIssue_Description(), ecorePackage.getEString(), "description", null, 0, 1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIssue_Open(), ecorePackage.getEBooleanObject(), "open", null, 0, 1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIssue_OpenTime(), this.getDate(), "openTime", null, 0, 1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIssue_CloseTime(), this.getDate(), "closeTime", null, 0, 1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIssue_Comments(), this.getComment(), null, "comments", null, 0, -1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIssue_ReportedBy(), this.getDeveloper(), null, "reportedBy", null, 0, 1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIssue_Comments(), this.getComment(), this.getComment_RegardingIssue(), "comments", null, 0, -1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIssue_ReportedBy(), this.getDeveloper(), this.getDeveloper_ReportedIssues(), "reportedBy", null, 0, 1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIssue_AssignedTo(), this.getDeveloper(), this.getDeveloper_AssignedIssues(), "assignedTo", null, 0, -1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIssue_AffectedVersions(), this.getVersion(), this.getVersion_Issues(), "affectedVersions", null, 0, -1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIssue_BlockedBy(), this.getIssue(), this.getIssue_Blocking(), "blockedBy", null, 0, -1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIssue_Blocking(), this.getIssue(), this.getIssue_BlockedBy(), "blocking", null, 0, -1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIssue_BlockedBy(), this.getIssue(), this.getIssue_Blocking(), "blockedBy", null, 0, -1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIssue_DuplicateOf(), this.getIssue(), this.getIssue_Duplicates(), "duplicateOf", null, 0, 1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIssue_Duplicates(), this.getIssue(), this.getIssue_DuplicateOf(), "duplicates", null, 0, -1, Issue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIssue_DeapestBlocking(), ecorePackage.getEInt(), "deapestBlocking", null, 0, 1, Issue.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(bugEClass, Bug.class, "Bug", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -865,14 +812,10 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 		initEClass(commentEClass, Comment.class, "Comment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getComment_Id(), ecorePackage.getEInt(), "id", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComment_Text(), ecorePackage.getEString(), "text", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getComment_Time(), this.getDate(), "time", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getComment_Replies(), this.getComment(), null, "replies", null, 0, -1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComment_Replies(), this.getComment(), this.getComment_ParentComment(), "replies", null, 0, -1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComment_RegardingIssue(), this.getIssue(), this.getIssue_Comments(), "regardingIssue", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComment_ParentComment(), this.getComment(), this.getComment_Replies(), "parentComment", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComment_Author(), this.getDeveloper(), this.getDeveloper_Comments(), "author", null, 0, 1, Comment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		// Initialize data types
-		initEDataType(dateEDataType, Date.class, "Date", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -950,7 +893,7 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 		  (developerEClass, 
 		   source, 
 		   new String[] {
-			 "label", "firstName"
+			 "label", "firstName, surename"
 		   });	
 		addAnnotation
 		  (bugEClass, 
@@ -1015,53 +958,53 @@ public class IssuerPackageImpl extends EPackageImpl implements IssuerPackage {
 	protected void createGmf_4Annotations() {
 		String source = "gmf.link";	
 		addAnnotation
-		  (getVersion_Issues(), 
-		   source, 
-		   new String[] {
-			 "target.decoration", "arrow",
-			 "style", "dash"
-		   });	
-		addAnnotation
 		  (getDeveloper_ReportedIssues(), 
 		   source, 
 		   new String[] {
 			 "target.decoration", "arrow",
-			 "style", "dash"
-		   });	
-		addAnnotation
-		  (getDeveloper_Comments(), 
-		   source, 
-		   new String[] {
-			 "target.decoration", "arrow",
-			 "style", "dash"
+			 "style", "dash",
+			 "color", "0,0,0",
+			 "tool.name", "Reported issue"
 		   });	
 		addAnnotation
 		  (getIssue_AssignedTo(), 
 		   source, 
 		   new String[] {
 			 "target.decoration", "arrow",
-			 "style", "dash"
+			 "style", "dash",
+			 "color", "55,55,255",
+			 "tool.name", "Assigned to",
+			 "tool.small.path", ""
 		   });	
 		addAnnotation
 		  (getIssue_AffectedVersions(), 
 		   source, 
 		   new String[] {
 			 "target.decoration", "arrow",
-			 "style", "dash"
+			 "style", "dash",
+			 "color", "55,255,55",
+			 "tool.name", "Affected version",
+			 "tool.small.path", ""
 		   });	
 		addAnnotation
 		  (getIssue_Blocking(), 
 		   source, 
 		   new String[] {
 			 "target.decoration", "arrow",
-			 "style", "dash"
+			 "style", "solid",
+			 "color", "255,55,55",
+			 "tool.name", "Blocking",
+			 "tool.small.path", ""
 		   });	
 		addAnnotation
 		  (getIssue_DuplicateOf(), 
 		   source, 
 		   new String[] {
 			 "target.decoration", "arrow",
-			 "style", "dash"
+			 "style", "dot",
+			 "color", "155,155,155",
+			 "tool.name", "Duplicate of",
+			 "tool.small.path", ""
 		   });
 	}
 

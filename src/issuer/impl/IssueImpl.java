@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -35,17 +35,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link issuer.impl.IssueImpl#getTitle <em>Title</em>}</li>
  *   <li>{@link issuer.impl.IssueImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link issuer.impl.IssueImpl#getOpen <em>Open</em>}</li>
- *   <li>{@link issuer.impl.IssueImpl#getOpenTime <em>Open Time</em>}</li>
- *   <li>{@link issuer.impl.IssueImpl#getCloseTime <em>Close Time</em>}</li>
  *   <li>{@link issuer.impl.IssueImpl#getComments <em>Comments</em>}</li>
  *   <li>{@link issuer.impl.IssueImpl#getReportedBy <em>Reported By</em>}</li>
  *   <li>{@link issuer.impl.IssueImpl#getAssignedTo <em>Assigned To</em>}</li>
  *   <li>{@link issuer.impl.IssueImpl#getAffectedVersions <em>Affected Versions</em>}</li>
- *   <li>{@link issuer.impl.IssueImpl#getBlockedBy <em>Blocked By</em>}</li>
  *   <li>{@link issuer.impl.IssueImpl#getBlocking <em>Blocking</em>}</li>
+ *   <li>{@link issuer.impl.IssueImpl#getBlockedBy <em>Blocked By</em>}</li>
  *   <li>{@link issuer.impl.IssueImpl#getDuplicateOf <em>Duplicate Of</em>}</li>
  *   <li>{@link issuer.impl.IssueImpl#getDuplicates <em>Duplicates</em>}</li>
- *   <li>{@link issuer.impl.IssueImpl#getDeapestBlocking <em>Deapest Blocking</em>}</li>
  * </ul>
  * </p>
  *
@@ -133,46 +130,6 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 	protected Boolean open = OPEN_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getOpenTime() <em>Open Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOpenTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Date OPEN_TIME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getOpenTime() <em>Open Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOpenTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected Date openTime = OPEN_TIME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getCloseTime() <em>Close Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCloseTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Date CLOSE_TIME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getCloseTime() <em>Close Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCloseTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected Date closeTime = CLOSE_TIME_EDEFAULT;
-
-	/**
 	 * The cached value of the '{@link #getComments() <em>Comments</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -213,16 +170,6 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 	protected EList<Version> affectedVersions;
 
 	/**
-	 * The cached value of the '{@link #getBlockedBy() <em>Blocked By</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBlockedBy()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Issue> blockedBy;
-
-	/**
 	 * The cached value of the '{@link #getBlocking() <em>Blocking</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -231,6 +178,16 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 	 * @ordered
 	 */
 	protected EList<Issue> blocking;
+
+	/**
+	 * The cached value of the '{@link #getBlockedBy() <em>Blocked By</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBlockedBy()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Issue> blockedBy;
 
 	/**
 	 * The cached value of the '{@link #getDuplicateOf() <em>Duplicate Of</em>}' reference.
@@ -251,16 +208,6 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 	 * @ordered
 	 */
 	protected EList<Issue> duplicates;
-
-	/**
-	 * The default value of the '{@link #getDeapestBlocking() <em>Deapest Blocking</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDeapestBlocking()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int DEAPEST_BLOCKING_EDEFAULT = 0;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -370,51 +317,9 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Date getOpenTime() {
-		return openTime;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOpenTime(Date newOpenTime) {
-		Date oldOpenTime = openTime;
-		openTime = newOpenTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IssuerPackage.ISSUE__OPEN_TIME, oldOpenTime, openTime));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Date getCloseTime() {
-		return closeTime;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCloseTime(Date newCloseTime) {
-		Date oldCloseTime = closeTime;
-		closeTime = newCloseTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IssuerPackage.ISSUE__CLOSE_TIME, oldCloseTime, closeTime));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<Comment> getComments() {
 		if (comments == null) {
-			comments = new EObjectContainmentEList<Comment>(Comment.class, this, IssuerPackage.ISSUE__COMMENTS);
+			comments = new EObjectContainmentWithInverseEList<Comment>(Comment.class, this, IssuerPackage.ISSUE__COMMENTS, IssuerPackage.COMMENT__REGARDING_ISSUE);
 		}
 		return comments;
 	}
@@ -450,11 +355,33 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReportedBy(Developer newReportedBy) {
+	public NotificationChain basicSetReportedBy(Developer newReportedBy, NotificationChain msgs) {
 		Developer oldReportedBy = reportedBy;
 		reportedBy = newReportedBy;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IssuerPackage.ISSUE__REPORTED_BY, oldReportedBy, reportedBy));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IssuerPackage.ISSUE__REPORTED_BY, oldReportedBy, newReportedBy);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setReportedBy(Developer newReportedBy) {
+		if (newReportedBy != reportedBy) {
+			NotificationChain msgs = null;
+			if (reportedBy != null)
+				msgs = ((InternalEObject)reportedBy).eInverseRemove(this, IssuerPackage.DEVELOPER__REPORTED_ISSUES, Developer.class, msgs);
+			if (newReportedBy != null)
+				msgs = ((InternalEObject)newReportedBy).eInverseAdd(this, IssuerPackage.DEVELOPER__REPORTED_ISSUES, Developer.class, msgs);
+			msgs = basicSetReportedBy(newReportedBy, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, IssuerPackage.ISSUE__REPORTED_BY, newReportedBy, newReportedBy));
 	}
 
 	/**
@@ -580,37 +507,26 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public int getDeapestBlocking() {
-		if (this.getBlocking().isEmpty()) {
-			return 0;
-		} else {
-			ArrayList<Integer> blockingDeapths = new ArrayList<Integer>();
-			for (Issue issue : this.getBlocking()) {
-				blockingDeapths.add(issue.getDeapestBlocking());
-			}
-			return 1 + Collections.max(blockingDeapths);
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case IssuerPackage.ISSUE__COMMENTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getComments()).basicAdd(otherEnd, msgs);
+			case IssuerPackage.ISSUE__REPORTED_BY:
+				if (reportedBy != null)
+					msgs = ((InternalEObject)reportedBy).eInverseRemove(this, IssuerPackage.DEVELOPER__REPORTED_ISSUES, Developer.class, msgs);
+				return basicSetReportedBy((Developer)otherEnd, msgs);
 			case IssuerPackage.ISSUE__ASSIGNED_TO:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAssignedTo()).basicAdd(otherEnd, msgs);
 			case IssuerPackage.ISSUE__AFFECTED_VERSIONS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAffectedVersions()).basicAdd(otherEnd, msgs);
-			case IssuerPackage.ISSUE__BLOCKED_BY:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getBlockedBy()).basicAdd(otherEnd, msgs);
 			case IssuerPackage.ISSUE__BLOCKING:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getBlocking()).basicAdd(otherEnd, msgs);
+			case IssuerPackage.ISSUE__BLOCKED_BY:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getBlockedBy()).basicAdd(otherEnd, msgs);
 			case IssuerPackage.ISSUE__DUPLICATE_OF:
 				if (duplicateOf != null)
 					msgs = ((InternalEObject)duplicateOf).eInverseRemove(this, IssuerPackage.ISSUE__DUPLICATES, Issue.class, msgs);
@@ -631,14 +547,16 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 		switch (featureID) {
 			case IssuerPackage.ISSUE__COMMENTS:
 				return ((InternalEList<?>)getComments()).basicRemove(otherEnd, msgs);
+			case IssuerPackage.ISSUE__REPORTED_BY:
+				return basicSetReportedBy(null, msgs);
 			case IssuerPackage.ISSUE__ASSIGNED_TO:
 				return ((InternalEList<?>)getAssignedTo()).basicRemove(otherEnd, msgs);
 			case IssuerPackage.ISSUE__AFFECTED_VERSIONS:
 				return ((InternalEList<?>)getAffectedVersions()).basicRemove(otherEnd, msgs);
-			case IssuerPackage.ISSUE__BLOCKED_BY:
-				return ((InternalEList<?>)getBlockedBy()).basicRemove(otherEnd, msgs);
 			case IssuerPackage.ISSUE__BLOCKING:
 				return ((InternalEList<?>)getBlocking()).basicRemove(otherEnd, msgs);
+			case IssuerPackage.ISSUE__BLOCKED_BY:
+				return ((InternalEList<?>)getBlockedBy()).basicRemove(otherEnd, msgs);
 			case IssuerPackage.ISSUE__DUPLICATE_OF:
 				return basicSetDuplicateOf(null, msgs);
 			case IssuerPackage.ISSUE__DUPLICATES:
@@ -663,10 +581,6 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 				return getDescription();
 			case IssuerPackage.ISSUE__OPEN:
 				return getOpen();
-			case IssuerPackage.ISSUE__OPEN_TIME:
-				return getOpenTime();
-			case IssuerPackage.ISSUE__CLOSE_TIME:
-				return getCloseTime();
 			case IssuerPackage.ISSUE__COMMENTS:
 				return getComments();
 			case IssuerPackage.ISSUE__REPORTED_BY:
@@ -676,17 +590,15 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 				return getAssignedTo();
 			case IssuerPackage.ISSUE__AFFECTED_VERSIONS:
 				return getAffectedVersions();
-			case IssuerPackage.ISSUE__BLOCKED_BY:
-				return getBlockedBy();
 			case IssuerPackage.ISSUE__BLOCKING:
 				return getBlocking();
+			case IssuerPackage.ISSUE__BLOCKED_BY:
+				return getBlockedBy();
 			case IssuerPackage.ISSUE__DUPLICATE_OF:
 				if (resolve) return getDuplicateOf();
 				return basicGetDuplicateOf();
 			case IssuerPackage.ISSUE__DUPLICATES:
 				return getDuplicates();
-			case IssuerPackage.ISSUE__DEAPEST_BLOCKING:
-				return getDeapestBlocking();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -712,12 +624,6 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 			case IssuerPackage.ISSUE__OPEN:
 				setOpen((Boolean)newValue);
 				return;
-			case IssuerPackage.ISSUE__OPEN_TIME:
-				setOpenTime((Date)newValue);
-				return;
-			case IssuerPackage.ISSUE__CLOSE_TIME:
-				setCloseTime((Date)newValue);
-				return;
 			case IssuerPackage.ISSUE__COMMENTS:
 				getComments().clear();
 				getComments().addAll((Collection<? extends Comment>)newValue);
@@ -733,13 +639,13 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 				getAffectedVersions().clear();
 				getAffectedVersions().addAll((Collection<? extends Version>)newValue);
 				return;
-			case IssuerPackage.ISSUE__BLOCKED_BY:
-				getBlockedBy().clear();
-				getBlockedBy().addAll((Collection<? extends Issue>)newValue);
-				return;
 			case IssuerPackage.ISSUE__BLOCKING:
 				getBlocking().clear();
 				getBlocking().addAll((Collection<? extends Issue>)newValue);
+				return;
+			case IssuerPackage.ISSUE__BLOCKED_BY:
+				getBlockedBy().clear();
+				getBlockedBy().addAll((Collection<? extends Issue>)newValue);
 				return;
 			case IssuerPackage.ISSUE__DUPLICATE_OF:
 				setDuplicateOf((Issue)newValue);
@@ -772,12 +678,6 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 			case IssuerPackage.ISSUE__OPEN:
 				setOpen(OPEN_EDEFAULT);
 				return;
-			case IssuerPackage.ISSUE__OPEN_TIME:
-				setOpenTime(OPEN_TIME_EDEFAULT);
-				return;
-			case IssuerPackage.ISSUE__CLOSE_TIME:
-				setCloseTime(CLOSE_TIME_EDEFAULT);
-				return;
 			case IssuerPackage.ISSUE__COMMENTS:
 				getComments().clear();
 				return;
@@ -790,11 +690,11 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 			case IssuerPackage.ISSUE__AFFECTED_VERSIONS:
 				getAffectedVersions().clear();
 				return;
-			case IssuerPackage.ISSUE__BLOCKED_BY:
-				getBlockedBy().clear();
-				return;
 			case IssuerPackage.ISSUE__BLOCKING:
 				getBlocking().clear();
+				return;
+			case IssuerPackage.ISSUE__BLOCKED_BY:
+				getBlockedBy().clear();
 				return;
 			case IssuerPackage.ISSUE__DUPLICATE_OF:
 				setDuplicateOf((Issue)null);
@@ -822,10 +722,6 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case IssuerPackage.ISSUE__OPEN:
 				return OPEN_EDEFAULT == null ? open != null : !OPEN_EDEFAULT.equals(open);
-			case IssuerPackage.ISSUE__OPEN_TIME:
-				return OPEN_TIME_EDEFAULT == null ? openTime != null : !OPEN_TIME_EDEFAULT.equals(openTime);
-			case IssuerPackage.ISSUE__CLOSE_TIME:
-				return CLOSE_TIME_EDEFAULT == null ? closeTime != null : !CLOSE_TIME_EDEFAULT.equals(closeTime);
 			case IssuerPackage.ISSUE__COMMENTS:
 				return comments != null && !comments.isEmpty();
 			case IssuerPackage.ISSUE__REPORTED_BY:
@@ -834,16 +730,14 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 				return assignedTo != null && !assignedTo.isEmpty();
 			case IssuerPackage.ISSUE__AFFECTED_VERSIONS:
 				return affectedVersions != null && !affectedVersions.isEmpty();
-			case IssuerPackage.ISSUE__BLOCKED_BY:
-				return blockedBy != null && !blockedBy.isEmpty();
 			case IssuerPackage.ISSUE__BLOCKING:
 				return blocking != null && !blocking.isEmpty();
+			case IssuerPackage.ISSUE__BLOCKED_BY:
+				return blockedBy != null && !blockedBy.isEmpty();
 			case IssuerPackage.ISSUE__DUPLICATE_OF:
 				return duplicateOf != null;
 			case IssuerPackage.ISSUE__DUPLICATES:
 				return duplicates != null && !duplicates.isEmpty();
-			case IssuerPackage.ISSUE__DEAPEST_BLOCKING:
-				return getDeapestBlocking() != DEAPEST_BLOCKING_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -866,10 +760,6 @@ public abstract class IssueImpl extends EObjectImpl implements Issue {
 		result.append(description);
 		result.append(", open: ");
 		result.append(open);
-		result.append(", openTime: ");
-		result.append(openTime);
-		result.append(", closeTime: ");
-		result.append(closeTime);
 		result.append(')');
 		return result.toString();
 	}

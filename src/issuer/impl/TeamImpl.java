@@ -6,7 +6,6 @@ import issuer.Developer;
 import issuer.Issue;
 import issuer.IssuerPackage;
 import issuer.Team;
-import issuer.Version;
 
 import java.util.Collection;
 
@@ -18,7 +17,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -157,28 +156,9 @@ public class TeamImpl extends EObjectImpl implements Team {
 	 */
 	public EList<Developer> getMembers() {
 		if (members == null) {
-			members = new EObjectContainmentEList<Developer>(Developer.class, this, IssuerPackage.TEAM__MEMBERS);
+			members = new EObjectContainmentWithInverseEList<Developer>(Developer.class, this, IssuerPackage.TEAM__MEMBERS, IssuerPackage.DEVELOPER__TEAM);
 		}
 		return members;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public EList<Issue> getAssignedIssues() {
-		EList<Issue> issues = new BasicEList<Issue>();
-		
-		for (Developer developer : this.getMembers()) {
-			for (Issue issue : developer.getAssignedIssues()) {
-				if (!issues.contains(issue)) {
-					issues.add(issue);
-				}
-			}	
-		}	
-		
-		return issues;		
 	}
 
 	/**
@@ -189,13 +169,49 @@ public class TeamImpl extends EObjectImpl implements Team {
 	public EList<Issue> getReportedIssues() {
 		EList<Issue> issues = new BasicEList<Issue>();
 		
-		for (Developer developer : this.getMembers()) {
-			for (Issue issue : developer.getReportedIssues()) {
+		for (Developer member : this.getMembers()) {
+			for (Issue issue : member.getReportedIssues()) {
+				if (!issues.contains(issue)) {
 					issues.add(issue);
-			}	
-		}	
+				}
+			}
+		}
 		
-		return issues;		
+		return issues;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<Issue> getAssignedIssues() {
+		EList<Issue> issues = new BasicEList<Issue>();
+		
+		for (Developer member : this.getMembers()) {
+			for (Issue issue : member.getAssignedIssues()) {
+				if (!issues.contains(issue)) {
+					issues.add(issue);
+				}
+			}
+		}
+		
+		return issues;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case IssuerPackage.TEAM__MEMBERS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getMembers()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
